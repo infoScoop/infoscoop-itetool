@@ -90,19 +90,25 @@ public class FileInfoCSVMaker {
         int arrayI = 0;
         for (String pattern : orderPatterns) {
             Pattern p = Pattern.compile(pattern);
-            for (int listI = 0, end = fileNameList.size(); listI < end; listI++) {
-                String fileName = fileNameList.get(listI);
+            for(String fileName : fileNameList) {
+                System.out.println(fileName);
                 if (p.matcher(fileName).matches()) {
                     fileInfoList[arrayI++] = new String[] { fileName, null, null, null };
-                    fileNameList.remove(listI);
                 }
             }
+//            for (int listI = 0, end = fileNameList.size(); listI < end; listI++) {
+//                String fileName = fileNameList.get(listI);
+//                if (p.matcher(fileName).matches()) {
+//                    fileInfoList[arrayI++] = new String[] { fileName, null, null, null };
+//                    fileNameList.remove(listI);
+//                }
+//            }
         }
 
         // leftovers
-        for (String fileName : fileNameList) {
-            fileInfoList[arrayI++][FILE_NAME_INDEX] = fileName;
-        }
+//        for (String fileName : fileNameList) {
+//            fileInfoList[arrayI++][FILE_NAME_INDEX] = fileName;
+//        }
     }
 
     private String getMD5HashValue(File file)
