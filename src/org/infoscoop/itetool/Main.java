@@ -1,10 +1,6 @@
 package org.infoscoop.itetool;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 
@@ -17,13 +13,13 @@ public class Main {
     public static void main(String[] args) {
         InputStream in = null;
         try {
-            String propFile = "makecsv.properties";
+            String propFile = System.getProperty("user.dir") + File.separator + "makecsv.properties";
 
             if(args.length > 0) {
-                propFile = args[0];
+                propFile = System.getProperty("user.dir") + File.separator + args[0];
             }
             System.out.println("Properties: " + propFile);
-            
+
             in = new BufferedInputStream(new FileInputStream(propFile));
             Properties prop = new Properties();
             prop.load(in);
