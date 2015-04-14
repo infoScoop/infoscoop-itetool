@@ -24,7 +24,8 @@ public class Main {
             Properties prop = new Properties();
             prop.load(in);
             
-            String dirPath = prop.getProperty("directory_path");
+            String dirPath =  System.getProperty("user.dir") + File.separator + prop.getProperty("directory_path");
+            System.out.println("Target Directory: " + dirPath);
             String oldCSVName = prop.getProperty("old_csv_name");
             String newCSVName = prop.getProperty("new_csv_name");
             String orderPatterns[] = prop.getProperty("order_patterns").split(",");
