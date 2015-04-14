@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="infoScoop-itetool" default="dist" basedir=".">
+	<property file="build.properties"/>
+
+	<property name="basedir" value="." />
+	<property name="app.main.name" value="infoscoop-itetool" />
+	<property name="build.home" value="${basedir}/build" />
+	<property name="dist.home" value="${basedir}/dist" />
+	<property name="build.main" value="${build.home}/work" />
+	<property name="classes.dir" value="${build.main}/classes"/>
+	<property name="src.dir" value="${basedir}/src" />
+
+	<property name="compile.level" value="1.7" />
+	<property name="compile.debug" value="true" />
+	<property name="compile.deprecation" value="false" />
+	<property name="compile.optimize" value="true" />
+
+	<target name="dist"
+			depends="clean, prepare, jar, rewrite-property, copy-property"
+			description="Build disribution files.">
+	</target>
+
+	<target name="clean" description="Delete old build directory">
+		<delete dir="${build.home}" />
+		<delete dir="${dist.home}" />
+	</target>
+
+	<target name="prepare" depends="clean">
+		<!-- Create build directories as needed -->
+		<mkdir dir="${dist.home}" />
+		<mkdir dir="${classes.dir}" />
+
+		<copy todir="${build.main}" file="${basedir}/makecsv.properties"/>
+	</target>
+
+	<target name="compile" depends="prepare" description="Compile main Java sources">
+		<javac srcdir="${src.dir}" encoding="utf-8" destdir="${build.main}/classes" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}" source="${compile.level}" target="${compile.level}"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar basedir="${build.main}/classes" jarfile="${dist.home}/${app.main.name}.jar">
+			<manifest>
+				<attribute name="Main-Class" value="org.infoscoop.itetool.Main"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="rewrite-property" depends="prepare">
+		<replaceregexp
+				file="${build.main}/makecsv.properties"
+				match="&lt;!--start directory path--&gt;.*&lt;!--end directory path--&gt;"
+				replace="${directory.path}"
+				flags="s"
+				encoding="UTF-8"/>
+	</target>
+
+	<target name="copy-property" depends="prepare">
+		<copy todir="${dist.home}" file="${build.main}/makecsv.properties"/>
+	</target>
+</project>
