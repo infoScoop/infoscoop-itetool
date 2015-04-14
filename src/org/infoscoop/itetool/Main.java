@@ -17,7 +17,14 @@ public class Main {
     public static void main(String[] args) {
         InputStream in = null;
         try {
-            in = new BufferedInputStream(new FileInputStream("makecsv.properties"));
+            String propFile = "makecsv.properties";
+
+            if(args.length > 0) {
+                propFile = args[0];
+            }
+            System.out.println("Properties: " + propFile);
+            
+            in = new BufferedInputStream(new FileInputStream(propFile));
             Properties prop = new Properties();
             prop.load(in);
             
